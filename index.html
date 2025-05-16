@@ -54,6 +54,13 @@
   <div class="p-6">
     <h2 class="text-3xl font-bold mb-2">بسم الله الوكيل</h2>
     <h3 class="text-2xl font-semibold mb-1">تحليل رقمي</h3>
+    <div id="iosInstallTip" style="display:none; position:fixed; bottom:16px; right:16px; background:#fff; color:#2e7d32; padding:14px 18px; border:2px solid #2e7d32; border-radius:12px; z-index:9999; font-size:14px; max-width:280px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+  📱 <strong>مستخدم iPhone؟</strong><br>
+  للتثبيت، افتح هذا الموقع باستخدام <strong>Safari</strong>.<br>
+  ثم اختر "إضافة إلى الشاشة الرئيسية" من زر المشاركة.<br><br>
+  <button onclick="copyLink()" style="background:#2e7d32; color:white; border:none; border-radius:8px; padding:6px 10px; font-size:13px;">📋 نسخ الرابط</button>
+</div>
+
     <p class="text-lg font-semibold mb-4 text-yellow-600">✨ إلى اللانهاية نرتقي سويًا ∞</p>
     <p class="text-sm text-gray-700 leading-relaxed mb-4">
       تحليل رقمي قرآني – لنكون من أصحاب الرقيم<br>
@@ -491,6 +498,22 @@ function installApp() {
     });
   }
 }
+
+  <script>
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
+  const isInStandalone = ('standalone' in window.navigator) && window.navigator.standalone;
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  if (isIOS && !isInStandalone && !isSafari) {
+    document.getElementById('iosInstallTip').style.display = 'block';
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert("📋 تم نسخ الرابط! افتحه الآن في Safari.");
+    });
+  }
 </script>
+
 </body>
 </html>
