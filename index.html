@@ -209,16 +209,30 @@ function handleImageUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    showCropperModal(e.target.result, (croppedDataUrl) => {
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
+
+  if (isIOS) {
+    // طريقة آمنة لـ iOS باستخدام createObjectURL
+    const imageUrl = URL.createObjectURL(file);
+    showCropperModal(imageUrl, (croppedDataUrl) => {
       showCountdown(() => {
         analyzeImageOCR(croppedDataUrl);
       });
     });
-  };
-  reader.readAsDataURL(file);
+  } else {
+    // الطريقة العادية للأندرويد والمتصفحات الأخرى
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      showCropperModal(e.target.result, (croppedDataUrl) => {
+        showCountdown(() => {
+          analyzeImageOCR(croppedDataUrl);
+        });
+      });
+    };
+    reader.readAsDataURL(file);
+  }
 }
+
 
 // نافذة القص
 function showCropperModal(imageSrc, callback) {
